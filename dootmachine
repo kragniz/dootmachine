@@ -1,0 +1,9 @@
+#!/usr/bin/env ruby
+
+class IRC
+    def initialize(server, nick, channel)
+        @server = server
+        @nick = nick
+        @channel = channel
+    end
+end
