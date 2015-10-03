@@ -1,9 +1,24 @@
 #!/usr/bin/env ruby
 
+require 'socket'
+
 class IRC
-    def initialize(server, nick, channel)
+    def initialize(server, nick, channel, port = 6667)
         @server = server
         @nick = nick
         @channel = channel
+        @socket = nil
+    end
+
+    def connect()
+        @socket = TCPSocket.open(@server, @port)
+    end
+
+    def send(message)
+        @socket.puts(message)
     end
 end
+
+doot = IRC.new('irc.freenode.net', 'dootmachine', '##doottesting')
+
+doot.connect()
