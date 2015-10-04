@@ -23,9 +23,28 @@ class IRC
         @socket.puts(message)
     end
 
+    def say(message)
+        send "PRIVMSG #{@channel} :#{message}"
+    end
+
     def handle_ping(message)
         if message.match(/^PING :(.*)$/)
             send "PONG #{$~[1]}"
+            return true
+        end
+
+        return false
+    end
+
+    def handle_doot(message)
+        if message.match(/PRIVMSG #{@channel} :(.*)$/)
+            body = $~[1]
+
+            doot_regex = /\b.oo.\b/
+            if body.match(doot_regex)
+                body = body.gsub(doot_regex, 'doot')
+                say body
+            end
             return true
         end
 
@@ -37,8 +56,8 @@ class IRC
             message = @socket.gets
             puts message
 
-            [method(:handle_ping)].each do |m|
-                m.call(message)
+            [method(:handle_ping), method(:handle_doot)].each do |m|
+                break if m.call(message)
             end
         end
     end
