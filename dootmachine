@@ -7,6 +7,7 @@ class IRC
         @server = server
         @nick = nick
         @channel = channel
+        @port = port
         @socket = nil
     end
 
