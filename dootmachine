@@ -13,6 +13,10 @@ class IRC
 
     def connect()
         @socket = TCPSocket.open(@server, @port)
+        send "NICK #{@nick}"
+        send "USER #{@nick} 0 * #{@nick}"
+        send "JOIN #{@channel}"
+        send "PRIVMSG #{@channel} :hello"
     end
 
     def send(message)
