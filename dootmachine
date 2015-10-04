@@ -22,8 +22,29 @@ class IRC
     def send(message)
         @socket.puts(message)
     end
+
+    def handle_ping(message)
+        if message.match(/^PING :(.*)$/)
+            send "PONG #{$~[1]}"
+            return true
+        end
+
+        return false
+    end
+
+    def loop()
+        until @socket.eof? do
+            message = @socket.gets
+            puts message
+
+            [method(:handle_ping)].each do |m|
+                m.call(message)
+            end
+        end
+    end
 end
 
 doot = IRC.new('irc.freenode.net', 'dootmachine', '##doottesting')
 
 doot.connect()
+doot.loop()
