@@ -56,8 +56,8 @@ class IRC
             message = @socket.gets
             puts message
 
-            [method(:handle_ping), method(:handle_doot)].each do |m|
-                break if m.call(message)
+            [:handle_ping, :handle_doot].each do |m|
+                break if method(m).call(message)
             end
         end
     end
