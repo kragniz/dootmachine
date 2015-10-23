@@ -3,9 +3,10 @@
 require 'socket'
 
 class IRC
-    def initialize(server, nick, channel, port = 6667)
+    def initialize(server, nick, password, channel, port = 6667)
         @server = server
         @nick = nick
+        @password = password
         @channel = channel
         @port = port
         @socket = nil
@@ -15,6 +16,7 @@ class IRC
         @socket = TCPSocket.open(@server, @port)
         send "NICK #{@nick}"
         send "USER #{@nick} 0 * #{@nick}"
+        send "PRIVMSG NickServ :IDENTIFY #{@password}"
         send "JOIN #{@channel}"
         send "PRIVMSG #{@channel} :hello"
     end
@@ -63,7 +65,7 @@ class IRC
     end
 end
 
-doot = IRC.new('irc.freenode.net', 'dootmachine', '##doottesting')
+doot = IRC.new('irc.freenode.net', 'dootmachine', 'hunter2', '##doottesting')
 
 doot.connect()
 doot.loop()
