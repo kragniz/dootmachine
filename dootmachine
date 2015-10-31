@@ -18,7 +18,7 @@ class IRC
         send "USER #{@nick} 0 * #{@nick}"
         send "PRIVMSG NickServ :IDENTIFY #{@password}"
         send "JOIN #{@channel}"
-        send "PRIVMSG #{@channel} :hello"
+        send "PRIVMSG #{@channel} :💀🎺 "
     end
 
     def send(message)
