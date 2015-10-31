@@ -61,9 +61,15 @@ class IRC
             end
         end
     end
+
+    def quit()
+        send 'QUIT'
+    end
+
 end
 
 doot = IRC.new('irc.freenode.net', 'dootmachine', '##doottesting')
 
 doot.connect()
+trap('INT'){ doot.quit }
 doot.loop()
